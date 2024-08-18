@@ -9,16 +9,25 @@ function validatePhone(phone) {
 }
 
 function formatPhone(phone) {
-    // Remove qualquer caractere que não seja número (apesar de o campo já aceitar apenas dígitos)
     phone = phone.replace(/\D/g, '');
     
-    // Formata o número no padrão (XX) 9-XXXX-XXXX
     const ddd = phone.substring(0, 2);
     const firstPart = phone.substring(2, 3);
     const middlePart = phone.substring(3, 7);
     const lastPart = phone.substring(7, 11);
     
     return `(${ddd}) ${firstPart}-${middlePart}-${lastPart}`;
+}
+
+function isPhoneAlreadyInList(formattedPhone) {
+    const rows = document.querySelectorAll("#contactTable tbody tr");
+    for (let row of rows) {
+        const phoneCell = row.cells[1].textContent;
+        if (phoneCell === formattedPhone) {
+            return true;
+        }
+    }
+    return false;
 }
 
 function addContact() {
@@ -31,17 +40,14 @@ function addContact() {
     const nameError = document.getElementById('nameError');
     const phoneError = document.getElementById('phoneError');
     
-    // Limpa as mensagens de erro
     nameError.textContent = '';
     phoneError.textContent = '';
 
-    // Valida o nome completo
     if (!validateName(name)) {
         nameError.textContent = 'Por favor, insira o nome completo.';
         return;
     }
     
-    // Valida o número e formata o telefone
     if (!validatePhone(phone)) {
         phoneError.textContent = 'O telefone deve conter exatamente 11 dígitos.';
         return;
@@ -49,7 +55,11 @@ function addContact() {
     
     phone = formatPhone(phone);
     
-    // Adiciona o contato na tabela
+    if (isPhoneAlreadyInList(phone)) {
+        phoneError.textContent = 'Este número de telefone já foi adicionado.';
+        return;
+    }
+    
     const contactTable = document.getElementById('contactTable').getElementsByTagName('tbody')[0];
     const newRow = contactTable.insertRow();
     
@@ -59,7 +69,6 @@ function addContact() {
     nameCell.textContent = name;
     phoneCell.textContent = phone;
     
-    // Limpa os campos de entrada
     nameInput.value = '';
     phoneInput.value = '';
 }
