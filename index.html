@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Contatos</title>
+    <link rel="stylesheet" href="main.css">
+</head>
+<body>
+    <h2>Cadastrar Contatos</h2>
+    <form id="contactForm">
+        <label for="name">Nome Completo:</label>
+        <input type="text" id="name" name="name" required>
+        <span id="nameError" class="error"></span><br><br>
+
+        <label for="phone">Telefone:</label>
+        <input type="text" id="phone" name="phone" required placeholder="Somente números" maxlength="11" pattern="\d{11}">
+        <span id="phoneError" class="error"></span><br><br>
+
+        <button type="button" onclick="addContact()">Cadastrar</button>
+    </form>
+
+    <table id="contactTable">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Telefone</th>
+            </tr>
+        </thead>
+        <tbody>
+
+        </tbody>
+    </table>
+
+    <script src="main.js"></script>
+</body>
+</html>
